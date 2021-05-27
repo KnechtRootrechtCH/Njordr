@@ -3,7 +3,7 @@
     <v-app>
       <v-app-bar app clipped-left color="primary">
         <v-app-bar-nav-icon @click.stop="toggleDrawer"></v-app-bar-nav-icon>
-        <v-toolbar-title>Page title</v-toolbar-title>
+        <v-toolbar-title>{{$t('Hangar Manager')}}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-menu left bottom>
           <template v-slot:activator="{ on, attrs }">
