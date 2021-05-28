@@ -1,60 +1,48 @@
 <template>
   <div class="root">
-    <v-list-item two-line>
-      <v-list-item-avatar>
-        <img src="https://randomuser.me/api/portraits/women/81.jpg">
+    <v-list-item two-line v-if="authenticated">
+      <v-list-item-avatar color="accent">
+        <img v-if="photoUrl" :src="photoUrl" />
+        <span v-if="!photoUrl && initials">{{initials}}</span>
+        <v-icon  v-if="!photoUrl && !initials">mdi-account</v-icon>
       </v-list-item-avatar>
       <v-list-item-content>
-        <v-list-item-title>Jane Smith</v-list-item-title>
-        <v-list-item-subtitle>Logged In</v-list-item-subtitle>
+        <v-list-item-title>{{ displayName }}</v-list-item-title>
+        <v-list-item-subtitle>{{$t("Logged In") }}</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
-    <v-divider/>
+    <v-divider v-if="authenticated" />
     <v-list nav dense>
-      <v-list-item link to="./fleet">
+      <v-list-item link to="./profile" v-if="authenticated">
         <v-list-item-icon>
-          <v-icon>mdi-clipboard-list-outline</v-icon>
+          <v-icon>mdi-account</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>{{$t('Fleet')}}</v-list-item-title>
+        <v-list-item-title>{{ $t("Profile") }}</v-list-item-title>
       </v-list-item>
-      <v-list-item link to="./orgainsations">
+      <v-list-item link to="./hangar" v-if="authenticated">
+        <v-list-item-icon>
+          <v-icon>mdi-warehouse</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>{{ $t("Hangar") }}</v-list-item-title>
+      </v-list-item>
+      <v-list-item link to="./orgainsations" v-if="authenticated">
         <v-list-item-icon>
           <v-icon>mdi-account-group</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>{{$t('Organisations')}}</v-list-item-title>
+        <v-list-item-title>{{ $t("Organisations") }}</v-list-item-title>
       </v-list-item>
-      <v-list-item link to="./about">
+      <v-list-item link to="./authenticate" v-if="!authenticated">
+        <v-list-item-icon>
+          <v-icon>mdi-login</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>{{ $t("Sign in") }}</v-list-item-title>
+      </v-list-item>
+      <v-list-item link to="/about" exact>
         <v-list-item-icon>
           <v-icon>mdi-information-outline</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>{{$t('About')}}</v-list-item-title>
+        <v-list-item-title>{{ $t("About") }}</v-list-item-title>
       </v-list-item>
-      <!--
-              <v-list-item link to="./transactions">
-        <v-list-item-icon>
-          <v-icon>mdi-cash-multiple</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>{{$t('Transactions')}}</v-list-item-title>
-      </v-list-item>
-      <v-list-item link to="./prospects">
-        <v-list-item-icon>
-          <v-icon>mdi-binoculars</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>{{$t('Prospects')}}</v-list-item-title>
-      </v-list-item>
-      <v-list-item link to="./upgrades">
-        <v-list-item-icon>
-          <v-icon>mdi-transfer-up</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>{{$t('Upgrades')}}</v-list-item-title>
-      </v-list-item>
-      <v-list-item link to="./buyback">
-        <v-list-item-icon>
-          <v-icon>mdi-credit-card-refund</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>{{$t('Buyback')}}</v-list-item-title>
-      </v-list-item>
-       -->
     </v-list>
   </div>
 </template>
@@ -62,6 +50,19 @@
 <script>
 export default {
   name: "NavigationDrawer",
+  computed: {
+    authenticated: (context) => context.$store.getters.isAuthenticated,
+    user: (context) => context.$store.state.user,
+    displayName: (context) => context.user.displayName || context.user.email,
+    photoUrl: (context) => context.user.photoURL || null,
+    initials() {
+      if (this.user.displayName) {
+        return this.displayName.split(' ').map((n)=>n[0]).join("").toUpperCase();
+      } else {
+        return null;
+      }
+    }
+  },
 };
 </script>
 
