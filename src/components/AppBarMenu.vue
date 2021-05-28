@@ -9,7 +9,7 @@
     <v-list>
       <v-list-item>
         <v-list-item-title @click="signOut">
-          {{ $t('Sign out')}}
+          {{ $t("Sign out") }}
         </v-list-item-title>
       </v-list-item>
     </v-list>
@@ -17,17 +17,16 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import { auth } from "../plugins/firebase";
 
 export default {
   name: "AppBar",
   methods: {
     signOut() {
-      console.log('signing out', this);
-      firebase.auth().signOut();
-      this.$router.replace("/authenticate")
-     }
-
+      console.log("signing out", this);
+      auth.signOut();
+      this.$router.replace("/authenticate");
+    },
   },
   props: {},
 };

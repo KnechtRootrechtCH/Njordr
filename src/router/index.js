@@ -7,7 +7,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Hangar",
+    name: "Home",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Hangar.vue"),
     meta: {
@@ -37,13 +37,25 @@ const routes = [
     },
   },
   {
-    path: "/fleet",
-    name: "Fleet",
+    path: "/packages",
+    name: "Packages",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Fleet.vue"),
+      import(/* webpackChunkName: "about" */ "../views/Packages.vue"),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Profile.vue"),
     meta: {
       requiresAuth: true,
     },
@@ -72,6 +84,19 @@ const routes = [
       requiresAuth: false,
     },
   },
+  {
+    path: "/admin/ships",
+    name: "Ship Database",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/ShipDatabase.vue"),
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true,
+    },
+  },
 ];
 
 const router = new VueRouter({
@@ -81,6 +106,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   let currentUser = auth.currentUser;
   let requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  //let requiresAdmin = to.matched.some((record) => record.meta.requiresAdmin);
 
   if (requiresAuth && !currentUser) {
     next("/authenticate");

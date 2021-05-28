@@ -10,7 +10,7 @@ Vue.config.productionTip = false;
 
 let app;
 auth.onAuthStateChanged(() => {
-  store.dispatch("getUserInfo");
+  store.dispatch("loadUserInfo");
   if (!app) {
     app = new Vue({
       router,
@@ -21,4 +21,3 @@ auth.onAuthStateChanged(() => {
     }).$mount("#app");
   }
 });
-store.dispatch("getConfiguration");

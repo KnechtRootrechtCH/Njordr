@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { auth } from "../plugins/firebase";
+import { auth, db } from "../plugins/firebase";
 
 Vue.use(Vuex);
 
@@ -10,6 +10,7 @@ export default new Vuex.Store({
     locale: "en",
     user: null,
     userInfo: null,
+    isAdmin: false,
   },
   mutations: {
     setConfiguration: (state, payload) => {
@@ -24,9 +25,12 @@ export default new Vuex.Store({
     setUserInfo: (state, payload) => {
       state.userInfo = payload;
     },
+    setAdminInfo: (state, payload) => {
+      state.isAdmin = payload != null && payload.isAdmin;
+    },
   },
   actions: {
-    getUserInfo: (context) => {
+    loadUserInfo: (context) => {
       context.commit("setLocale", navigator.language.trim().substring(0, 2));
       if (auth && auth.currentUser) {
         let userInfo = {};
@@ -39,13 +43,39 @@ export default new Vuex.Store({
 
         context.commit("setUser", auth.currentUser);
         context.commit("setUserInfo", userInfo);
+        context.dispatch("loadAdminInfo");
+        context.dispatch("loadConfiguration");
       } else {
         context.commit("setUser", null);
         context.commit("setUserInfo", null);
+        context.commit("setAdminInfo", null);
       }
     },
-    getConfiguration: (context) => {
-      context.commit("setConfiguration", navigator);
+    loadAdminInfo: (context) => {
+      db.collection("static")
+        .doc("configuration")
+        .collection("administrators")
+        .doc(context.state.user.uid)
+        .get()
+        .then((doc) => {
+          context.commit("setAdminInfo", doc.data());
+        })
+        .catch((error) => {
+          context.error("Unable to load data from firebase", error);
+          context.commit("setAdminInfo", null);
+        });
+    },
+    loadConfiguration: (context) => {
+      db.collection("static")
+        .doc("configuration")
+        .get()
+        .then((doc) => {
+          context.commit("setConfiguration", doc.data());
+        })
+        .catch((error) => {
+          context.error("Unable to load data from firebase", error);
+          context.commit("setAdminInfo", null);
+        });
     },
   },
   getters: {

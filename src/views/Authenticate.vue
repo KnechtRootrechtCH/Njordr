@@ -38,7 +38,8 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import firebase from "firebase/app";
+import { auth } from "../plugins/firebase";
 
 export default {
   name: "Authenticate",
@@ -53,8 +54,7 @@ export default {
   },
   methods: {
     signInWithEmailAndPassword: function () {
-      firebase
-        .auth()
+      auth
         .signInWithEmailAndPassword(this.email, this.password)
         .then(
           () => {
@@ -70,8 +70,7 @@ export default {
     },
     signInWithGoogleAuth: function () {
       let provider = new firebase.auth.GoogleAuthProvider();
-      firebase
-        .auth()
+      auth
         .signInWithPopup(provider)
         .then(() => {
           this.message = "";
