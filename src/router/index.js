@@ -37,13 +37,13 @@ const routes = [
     },
   },
   {
-    path: "/packages",
-    name: "Packages",
+    path: "/manage",
+    name: "Manage Pledges",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Packages.vue"),
+      import(/* webpackChunkName: "about" */ "../views/Manage.vue"),
     meta: {
       requiresAuth: true,
     },

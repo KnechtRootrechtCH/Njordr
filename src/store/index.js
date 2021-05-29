@@ -1,6 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { auth, db } from "../plugins/firebase";
+import { hangar } from "./modules/hangar";
+import { pledges } from "./modules/pledges";
+import { alerts } from "./modules/alerts";
 
 Vue.use(Vuex);
 
@@ -45,6 +48,7 @@ export default new Vuex.Store({
         context.commit("setUserInfo", userInfo);
         context.dispatch("loadAdminInfo");
         context.dispatch("loadConfiguration");
+        context.dispatch("load");
       } else {
         context.commit("setUser", null);
         context.commit("setUserInfo", null);
@@ -81,5 +85,9 @@ export default new Vuex.Store({
   getters: {
     isAuthenticated: (state) => state.user != null,
   },
-  modules: {},
+  modules: {
+    hangar: hangar,
+    pledges: pledges,
+    alerts: alerts,
+  },
 });

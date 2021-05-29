@@ -1,19 +1,12 @@
 <template>
-  <v-menu left bottom>
+  <v-tooltip bottom>
     <template v-slot:activator="{ on, attrs }">
-      <v-btn icon v-bind="attrs" v-on="on">
-        <v-icon>mdi-dots-vertical</v-icon>
+      <v-btn icon @click="signOut" v-bind="attrs" v-on="on">
+        <v-icon>mdi-logout</v-icon>
       </v-btn>
     </template>
-
-    <v-list>
-      <v-list-item>
-        <v-list-item-title @click="signOut">
-          {{ $t("Sign out") }}
-        </v-list-item-title>
-      </v-list-item>
-    </v-list>
-  </v-menu>
+    <span>{{ $t("Sign out") }}</span>
+  </v-tooltip>
 </template>
 
 <script>
@@ -23,6 +16,7 @@ export default {
   name: "AppBar",
   methods: {
     signOut() {
+      console.log("signing out", this);
       auth.signOut();
       this.$router.replace("/authenticate");
     },

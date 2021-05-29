@@ -2,7 +2,7 @@
   <v-container>
     <v-row class="mb-4" justify="center" no-gutters>
       <v-col sm="12" md="8" xl="4">
-        <v-card class="pa-8" elevation="20" outlined>
+        <v-card class="pa-8 content" elevation="20" outlined>
           <v-form submit="signInWithEmailAndPassword">
             <v-text-field
               v-model="email"
@@ -54,19 +54,17 @@ export default {
   },
   methods: {
     signInWithEmailAndPassword: function () {
-      auth
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then(
-          () => {
-            this.message = "";
-            this.hasMessage = false;
-            this.$router.replace("/");
-          },
-          (err) => {
-            this.message = err.message;
-            this.hasMessage = true;
-          }
-        );
+      auth.signInWithEmailAndPassword(this.email, this.password).then(
+        () => {
+          this.message = "";
+          this.hasMessage = false;
+          this.$router.replace("/");
+        },
+        (err) => {
+          this.message = err.message;
+          this.hasMessage = true;
+        }
+      );
     },
     signInWithGoogleAuth: function () {
       let provider = new firebase.auth.GoogleAuthProvider();
@@ -91,4 +89,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.content {
+  text-align: center;
+}
+</style>

@@ -17,7 +17,7 @@
       </v-list-item-content>
     </v-list-item>
     <v-divider v-if="authenticated" />
-    <v-list nav dense>
+    <v-list nav dense v-if="authenticated">
       <v-list-item link to="./hangar" v-if="authenticated">
         <v-list-item-icon>
           <v-icon>mdi-warehouse</v-icon>
@@ -30,11 +30,29 @@
         </v-list-item-icon>
         <v-list-item-title>{{ $t("Organisations") }}</v-list-item-title>
       </v-list-item>
-      <v-list-item link to="./packages" v-if="authenticated">
+      <v-list-item link to="./manage" v-if="authenticated">
         <v-list-item-icon>
-          <v-icon>mdi-blur-linear</v-icon>
+          <v-icon>mdi-clipboard-text</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>{{ $t("Packages") }}</v-list-item-title>
+        <v-list-item-title>{{ $t("Manage Pledges") }}</v-list-item-title>
+      </v-list-item>
+    </v-list>
+    <v-divider v-if="isAdmin" />
+    <v-list nav dense v-if="isAdmin">
+      <v-list-item link to="/admin/ships" exact>
+        <v-list-item-icon>
+          <v-icon>mdi-database-edit</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>{{ $t("Ship Database") }}</v-list-item-title>
+      </v-list-item>
+    </v-list>
+    <v-divider v-if="authenticated" />
+    <v-list nav dense>
+      <v-list-item @click="signOut" v-if="authenticated">
+        <v-list-item-icon>
+          <v-icon>mdi-logout</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>{{ $t("Sign out") }}</v-list-item-title>
       </v-list-item>
       <v-list-item link to="./authenticate" v-if="!authenticated">
         <v-list-item-icon>
@@ -49,21 +67,20 @@
         <v-list-item-title>{{ $t("About") }}</v-list-item-title>
       </v-list-item>
     </v-list>
-    <v-divider v-if="isAdmin" />
-    <v-list nav dense v-if="isAdmin">
-      <v-list-item link to="/admin/ships" exact>
-        <v-list-item-icon>
-          <v-icon>mdi-database-edit</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>{{ $t("Ship Database") }}</v-list-item-title>
-      </v-list-item>
-    </v-list>
   </div>
 </template>
 
 <script>
+import { auth } from "../plugins/firebase";
+
 export default {
   name: "NavigationDrawer",
+  methods: {
+    signOut() {
+      auth.signOut();
+      this.$router.replace("/authenticate");
+    },
+  },
   computed: {
     authenticated: (context) => context.$store.getters.isAuthenticated,
     user: (context) => context.$store.state.user,
