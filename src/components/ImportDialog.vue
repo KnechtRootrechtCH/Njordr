@@ -94,8 +94,9 @@ export default {
   }),
   methods: {
     openDialog() {
-      this.dialog = true;
+      this.file = null;
       this.step = 1;
+      this.dialog = true;
     },
     nextStep() {
       switch (this.step) {

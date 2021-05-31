@@ -21,7 +21,10 @@ let pledges = {
             context.commit("list", snapshot.docs, context.rootState.user.uid);
           },
           (error) => {
-            context.commit("error", { message: "Error loading pledge data!", info: error});
+            context.dispatch("error", {
+              message: "Error loading pledge data!",
+              info: error,
+            });
           }
         );
     },
@@ -41,8 +44,8 @@ let pledges = {
           date: x.pledge_date,
           cost: x.pledge_cost,
           lti: x.lti,
-          warbond: x.warbond
-        }
+          warbond: x.warbond,
+        };
         pledges.set(pledge.key, pledge);
       });
 
@@ -60,10 +63,13 @@ let pledges = {
       batch
         .commit()
         .then(() => {
-          context.commit("info", { message: `Successfully imported ${pledges.size} pledges.`, info: payload.data});
+          //context.dispatch("success", { message: `Successfully imported ${pledges.size} pledges.`});
         })
         .catch((error) => {
-          context.commit("error", { message: "Error importing hangar items!", info: error});
+          context.dispatch("error", {
+            message: "Error importing hangar items!",
+            info: error,
+          });
         });
     },
   },

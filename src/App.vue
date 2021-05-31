@@ -16,9 +16,9 @@
 
       <v-navigation-drawer
         app
-        absolute
-        left
         fixed
+        clipped
+        left
         v-model="drawer"
         class="content"
         color="rgba(50, 50, 50, 0.6)"
@@ -68,9 +68,10 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  background: url("./assets/header_background.png") no-repeat center center;
+  background: url("./assets/images/background.jpg") no-repeat center center;
   background-color: rgba(100, 100, 100, 0.6);
   background-blend-mode: saturation;
   background-size: cover;
+  background-attachment: fixed;
 }
 </style>

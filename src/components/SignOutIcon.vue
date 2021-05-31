@@ -16,7 +16,6 @@ export default {
   name: "AppBar",
   methods: {
     signOut() {
-      console.log("signing out", this);
       auth.signOut();
       this.$router.replace("/authenticate");
     },

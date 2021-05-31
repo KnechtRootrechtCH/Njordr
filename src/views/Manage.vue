@@ -46,7 +46,6 @@ export default {
   methods: {},
   computed: {
     list: (context) => context.$store.state.pledges.list,
-    isAdmin: (context) => context.$store.state.isAdmin,
     itemCount: (context) => (context.list ? context.list.length : 0),
   },
 };

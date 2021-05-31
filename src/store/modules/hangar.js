@@ -6,10 +6,11 @@ Vue.use(Vuex);
 
 let hangar = {
   state: {
-    list: [],
+    list: {},
   },
   mutations: {
-    list: (state, payload) => (state.list = payload ?? [0]),
+    updateHangarItem: (state, payload) =>
+      Vue.set(state.list, payload.key, payload),
   },
   actions: {
     load: (context) => {
@@ -18,11 +19,17 @@ let hangar = {
         .collection("hangar")
         .onSnapshot(
           (snapshot) => {
-            context.commit("list", snapshot.docs, context.rootState.user.uid);
+            snapshot.forEach((doc) => {
+              if (doc.data().key) {
+                context.commit("updateHangarItem", doc.data());
+              }
+            });
           },
           (error) => {
-            console.error("", error);
-            context.commit("error", { message: "Error loading hangar data!", info: error});
+            context.dispatch("error", {
+              message: "Error loading hangar data!",
+              info: error,
+            });
           }
         );
     },
@@ -49,10 +56,15 @@ let hangar = {
       batch
         .commit()
         .then(() => {
-          context.commit("success", { message: `Successfully imported ${payload.data.length} hangar items.`, info: payload.data}, { root: true});
+          context.dispatch("success", {
+            message: `Successfully imported ${payload.data.length} hangar items.`,
+          });
         })
         .catch((error) => {
-          context.commit("error", { message: "Error importing hangar items!", info: error});
+          context.dispatch("error", {
+            message: "Error importing hangar items!",
+            info: error,
+          });
         });
     },
   },

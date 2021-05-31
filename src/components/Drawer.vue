@@ -86,7 +86,7 @@ export default {
     user: (context) => context.$store.state.user,
     displayName: (context) => context.user.displayName || context.user.email,
     photoUrl: (context) => context.user.photoURL || null,
-    isAdmin: (context) => context.$store.state.isAdmin,
+    isAdmin: (context) => context.$store.getters.isAdmin,
     initials() {
       if (this.user.displayName) {
         return this.displayName
@@ -103,8 +103,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.root {
-  margin: 62px 0 0;
-}
-</style>
+<style scoped></style>

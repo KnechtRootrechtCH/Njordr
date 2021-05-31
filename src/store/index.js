@@ -1,9 +1,10 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { auth, db } from "../plugins/firebase";
+import { alerts } from "./modules/alerts";
 import { hangar } from "./modules/hangar";
 import { pledges } from "./modules/pledges";
-import { alerts } from "./modules/alerts";
+import { ships } from "./modules/ships";
 
 Vue.use(Vuex);
 
@@ -84,10 +85,12 @@ export default new Vuex.Store({
   },
   getters: {
     isAuthenticated: (state) => state.user != null,
+    isAdmin: (state) => state.user != null && state.isAdmin,
   },
   modules: {
+    alerts: alerts,
     hangar: hangar,
     pledges: pledges,
-    alerts: alerts,
+    ships: ships,
   },
 });
