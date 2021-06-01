@@ -24,17 +24,17 @@
         </v-list-item-icon>
         <v-list-item-title>{{ $t("Hangar") }}</v-list-item-title>
       </v-list-item>
+      <v-list-item link to="./pledges" v-if="authenticated">
+        <v-list-item-icon>
+          <v-icon>mdi-clipboard-text</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>{{ $t("Pledges") }}</v-list-item-title>
+      </v-list-item>
       <v-list-item link to="./orgainsations" v-if="authenticated">
         <v-list-item-icon>
           <v-icon>mdi-account-group</v-icon>
         </v-list-item-icon>
         <v-list-item-title>{{ $t("Organisations") }}</v-list-item-title>
-      </v-list-item>
-      <v-list-item link to="./manage" v-if="authenticated">
-        <v-list-item-icon>
-          <v-icon>mdi-clipboard-text</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>{{ $t("Manage Pledges") }}</v-list-item-title>
       </v-list-item>
     </v-list>
     <v-divider v-if="isAdmin" />

@@ -5,6 +5,12 @@ import store from "./store/index";
 import { auth } from "@/plugins/firebase";
 import vuetify from "@/plugins/vuetify";
 import i18n from "@/plugins/i18n";
+import VueLodash from "vue-lodash";
+import lodash from "lodash";
+import moment from "vue-moment";
+
+Vue.use(moment);
+Vue.use(VueLodash, { name: "custom", lodash: lodash });
 
 Vue.config.productionTip = false;
 

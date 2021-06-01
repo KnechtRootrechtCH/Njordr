@@ -3,35 +3,33 @@
     <v-container>
       <v-row>
         <v-col col="12">
-          <v-toolbar flat color="transparent" class="toolbar">
+          <v-toolbar flat color="transparent">
             <v-toolbar-title>{{ $t("Hangar") }}</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn-toggle dense v-model="displayToggle">
-              <v-btn><v-icon>mdi-view-list</v-icon></v-btn>
-              <v-btn><v-icon>mdi-view-grid</v-icon></v-btn>
-            </v-btn-toggle>
+            <v-item-group class="v-btn-toggle v-btn-toggle--dense">
+              <ImportDialog />
+            </v-item-group>
           </v-toolbar>
         </v-col>
       </v-row>
       <v-row v-if="itemCount == 0">
         <v-col col="12"> </v-col>
       </v-row>
-      <ShipGrid v-if="displayToggle == 1" />
-      <PledgeList v-if="displayToggle == 0" />
+      <ShipGrid />
     </v-container>
   </div>
 </template>
 
 <script>
 import ShipGrid from "@/components/ShipGrid.vue";
-import PledgeList from "@/components/PledgeList.vue";
+import ImportDialog from "@/components/ImportDialog.vue";
 
 export default {
   name: "Hangar",
   data: () => ({
     displayToggle: 1,
   }),
-  components: { ShipGrid, PledgeList },
+  components: { ShipGrid, ImportDialog },
   methods: {},
   computed: {
     list: (context) => context.$store.state.hangar.list,

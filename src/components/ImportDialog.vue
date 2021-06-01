@@ -136,9 +136,6 @@ export default {
       }
     },
     commitImport() {
-      if (this.importType == "replace") {
-        this.$store.dispatch("clear");
-      }
       this.$store.dispatch("import", {
         type: this.importType,
         data: this.data,

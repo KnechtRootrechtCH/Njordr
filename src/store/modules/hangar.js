@@ -9,19 +9,28 @@ let hangar = {
     list: {},
   },
   mutations: {
+    clearHangar: (state) => {
+      state.list = {};
+    },
     updateHangarItem: (state, payload) =>
       Vue.set(state.list, payload.key, payload),
+    removeHangarItem: (state, payload) => Vue.delete(state.list, payload.key),
   },
   actions: {
     load: (context) => {
       db.collection("users")
         .doc(context.rootState.user.uid)
         .collection("hangar")
+        .orderBy("ship_code", "asc")
         .onSnapshot(
           (snapshot) => {
-            snapshot.forEach((doc) => {
-              if (doc.data().key) {
-                context.commit("updateHangarItem", doc.data());
+            snapshot.docChanges().forEach((change) => {
+              if (change.type === "added") {
+                context.commit("updateHangarItem", change.doc.data());
+              } else if (change.type === "modified") {
+                context.commit("updateHangarItem", change.doc.data());
+              } else if (change.type === "removed") {
+                context.commit("removeHangarItem", change.doc.data());
               }
             });
           },
@@ -33,15 +42,21 @@ let hangar = {
           }
         );
     },
-    clear: (context) => {
-      const batch = db.batch();
-      context.state.list.forEach((x) => {
-        batch.delete(x.ref);
-      });
-      batch.commit();
-    },
     import: (context, payload) => {
       const batch = db.batch();
+
+      if (payload.type == "replace") {
+        Object.keys(context.state.list).forEach((key) => {
+          console.log(key, "delete");
+          let ref = db
+            .collection("users")
+            .doc(context.rootState.user.uid)
+            .collection("hangar")
+            .doc(key);
+          batch.delete(ref);
+        });
+      }
+
       payload.data.forEach((x) => {
         x.key = `${x.pledge_id}:${x.ship_code}`;
         let ref = db
@@ -53,6 +68,7 @@ let hangar = {
           merge: true,
         });
       });
+
       batch
         .commit()
         .then(() => {
@@ -69,9 +85,8 @@ let hangar = {
     },
   },
   getters: {
-    hangarItem: (state) => (key) => {
-      return state.list.find((x) => x.key == key);
-    },
+    getShipsByPledgeId: (state) => (pledgeId) =>
+      Object.values(state.list).filter((x) => x.pledge_id == pledgeId),
   },
   modules: {},
 };

@@ -1,6 +1,13 @@
 <template>
   <v-row v-if="itemCount > 0">
-    <v-col v-for="item in list" :key="item.key" sm="12" md="6" lg="4" xl="3">
+    <v-col
+      v-for="item in orderedList"
+      :key="item.key"
+      sm="12"
+      md="6"
+      lg="6"
+      xl="3"
+    >
       <ShipCard :item="item" />
     </v-col>
   </v-row>
@@ -18,6 +25,7 @@ export default {
   methods: {},
   computed: {
     list: (context) => context.$store.state.hangar.list,
+    orderedList: (context) => context._.orderBy(context.list, "ship_code"),
     itemCount: (context) =>
       Object.keys(context.$store.state.hangar.list).length,
   },

@@ -4,7 +4,7 @@
       <v-row>
         <v-col col="12">
           <v-toolbar flat color="transparent">
-            <v-toolbar-title>{{ $t("Manage Pledges") }}</v-toolbar-title>
+            <v-toolbar-title>{{ $t("Pledges") }}</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-item-group class="v-btn-toggle v-btn-toggle--dense">
               <ImportDialog />
@@ -21,24 +21,23 @@
           </v-toolbar>
         </v-col>
       </v-row>
-      <v-row> </v-row>
       <v-row v-if="itemCount == 0">
         <v-col col="12"> </v-col>
       </v-row>
-      <v-row v-if="itemCount > 0">
-        <v-col col="12"> </v-col>
-      </v-row>
+      <PledgeList />
     </v-container>
   </div>
 </template>
 
 <script>
+import PledgeList from "@/components/PledgeList.vue";
 import ImportDialog from "@/components/ImportDialog.vue";
 
 export default {
-  name: "ManagePledges",
+  name: "Pledges",
   components: {
     ImportDialog,
+    PledgeList,
   },
   data: () => ({
     displayToggle: 1,

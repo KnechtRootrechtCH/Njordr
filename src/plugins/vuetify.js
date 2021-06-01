@@ -18,7 +18,7 @@ const opts = {
         success: colors.success,
       },
       dark: {
-        primary: colors.amber,
+        primary: colors.amber.darken1,
         secondary: colors.indigo,
         accent: colors.blueGrey,
         error: colors.error,
