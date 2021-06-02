@@ -12,7 +12,7 @@
           </v-toolbar>
         </v-col>
       </v-row>
-      <ShipGrid :list="orderedList"/>
+      <ShipGrid :list="orderedList" />
     </v-container>
   </div>
 </template>
@@ -23,8 +23,7 @@ import ImportDialog from "@/components/ImportDialog.vue";
 
 export default {
   name: "Hangar",
-  data: () => ({
-  }),
+  data: () => ({}),
   components: { ShipGrid, ImportDialog },
   methods: {},
   computed: {

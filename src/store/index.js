@@ -91,31 +91,36 @@ export default new Vuex.Store({
     load: (context) => {
       db.collection("users")
         .doc(context.state.user.uid)
-        .onSnapshot((doc) => {
-          context.commit("setProfile", doc.data());
-          context.dispatch("loadOrgList");
-        },
-        (error) => {
-          context.dispatch("error", {
-            message: "Error loading profile data!",
-            info: error,
-          });
-        });
+        .onSnapshot(
+          (doc) => {
+            context.commit("setProfile", doc.data());
+            context.dispatch("loadOrgList");
+          },
+          (error) => {
+            context.dispatch("error", {
+              message: "Error loading profile data!",
+              info: error,
+            });
+          }
+        );
     },
     updateProfileBaseData: (context) => {
       db.collection("users")
-      .doc(context.state.user.uid)
-      .set({
-        displayName: context.state.user.displayName,
-        email: context.state.user.email,
-        photoUrl: context.state.user.photoURL,
-        uid: context.state.user.uid,
-      }, {merge: true})
-      .catch((error) => {
-        context.error("Unable to load data from firebase", error);
-        context.commit("setAdminInfo", null);
-      });
-    }
+        .doc(context.state.user.uid)
+        .set(
+          {
+            displayName: context.state.user.displayName,
+            email: context.state.user.email,
+            photoUrl: context.state.user.photoURL,
+            uid: context.state.user.uid,
+          },
+          { merge: true }
+        )
+        .catch((error) => {
+          context.error("Unable to load data from firebase", error);
+          context.commit("setAdminInfo", null);
+        });
+    },
   },
   getters: {
     isAuthenticated: (state) => state.user != null,

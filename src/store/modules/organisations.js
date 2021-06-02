@@ -13,12 +13,13 @@ let organisations = {
     subscriptions: [],
   },
   mutations: {
-    updatOrgInfo: (state, payload) =>
-      Vue.set(state.list, payload.id, payload),
+    updatOrgInfo: (state, payload) => Vue.set(state.list, payload.id, payload),
     removeOrgInfo: (state, key) => Vue.delete(state.list, key),
-    updateOrgFleetItem: (state, payload) => Vue.set(state.fleet, payload.key, payload),
-    removeOrgFleetItem: (state, payload) => Vue.delete(state.fleet, payload.key),
-    clearOrgFleet: (state) => state.fleet = {},
+    updateOrgFleetItem: (state, payload) =>
+      Vue.set(state.fleet, payload.key, payload),
+    removeOrgFleetItem: (state, payload) =>
+      Vue.delete(state.fleet, payload.key),
+    clearOrgFleet: (state) => (state.fleet = {}),
     seOrganisationMembertProfile: (state, payload) =>
       Vue.set(state.profiles, payload.uid, payload),
     registerSubscription(state, payload) {
@@ -29,71 +30,82 @@ let organisations = {
         subscription();
       });
       state.subscriptions = [];
-    }
+    },
   },
   actions: {
     loadOrgList: (context) => {
-      if (!context.rootState.profile || !context.rootState.profile.organisations) {
+      if (
+        !context.rootState.profile ||
+        !context.rootState.profile.organisations
+      ) {
         return;
       }
 
       context.rootState.profile.organisations.forEach((orgKey) => {
         db.collection("organisations")
-        .doc(orgKey)
-        .onSnapshot((doc) => {
-          let data = doc.data();
-          if (data.members && data.members.includes(context.rootState.user.uid)) {
-            context.commit("updatOrgInfo", data);
-            context.dispatch("loadOrganisationMemberProfiles", data.id);
-          }
-          else {
-            context.commit("removeOrgInfo",doc.id);
-          }
-        },
-        (error) => {
-          context.dispatch("error", {
-            message: "Error loading org data!",
-            info: error,
-          });
-        });
+          .doc(orgKey)
+          .onSnapshot(
+            (doc) => {
+              let data = doc.data();
+              if (
+                data.members &&
+                data.members.includes(context.rootState.user.uid)
+              ) {
+                context.commit("updatOrgInfo", data);
+                context.dispatch("loadOrganisationMemberProfiles", data.id);
+              } else {
+                context.commit("removeOrgInfo", doc.id);
+              }
+            },
+            (error) => {
+              context.dispatch("error", {
+                message: "Error loading org data!",
+                info: error,
+              });
+            }
+          );
       });
     },
     loadOrganisationMemberProfiles: (context, orgKey) => {
-      let info = context.state.list[orgKey]
-      if (!info || !info.members){
+      let info = context.state.list[orgKey];
+      if (!info || !info.members) {
         return;
       }
 
       info.members.forEach((memberId) => {
         db.collection("users")
-        .doc(memberId)
-        .onSnapshot((doc) => {
-          let data = doc.data();
-          if (data.displayName) {
-              data.initials = data.displayName.split(" ")
-              .map((n) => n[0])
-              .join("")
-              .toUpperCase();
-          }
-          context.commit("seOrganisationMembertProfile", data);
-        },
-        (error) => {
-          context.dispatch("error", {
-            message: "Error loading profile data!",
-            info: error,
-          });
-        });
-       });
+          .doc(memberId)
+          .onSnapshot(
+            (doc) => {
+              let data = doc.data();
+              if (data.displayName) {
+                data.initials = data.displayName
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")
+                  .toUpperCase();
+              }
+              context.commit("seOrganisationMembertProfile", data);
+            },
+            (error) => {
+              context.dispatch("error", {
+                message: "Error loading profile data!",
+                info: error,
+              });
+            }
+          );
+      });
     },
     loadOrgFleet: (context, orgKey) => {
-      let info = context.state.list[orgKey]
-      if (!info || !info.members){
+      let info = context.state.list[orgKey];
+      if (!info || !info.members) {
         return;
       }
       context.commit("clearOrgFleet");
       context.commit("unsubscribeOrgFleet");
       info.members.forEach((memberId) => {
-        let subscription = db.collection("users")
+        let subscription = db
+          .collection("users")
           .doc(memberId)
           .collection("hangar")
           .onSnapshot((snapshot) => {
@@ -108,22 +120,20 @@ let organisations = {
                 context.commit("removeOrgFleetItem", data.key);
               }
             });
-          context.commit("registerSubscription", subscription);
-        });
+            context.commit("registerSubscription", subscription);
+          });
       });
     },
     clearOrgFleet: (context) => {
       context.commit("clearOrgFleet");
-    }
+    },
   },
   getters: {
     organisationInfo: (state) => (key) => {
       return state.list[key];
     },
   },
-  modules: {
-
-  },
+  modules: {},
 };
 
 export { organisations };

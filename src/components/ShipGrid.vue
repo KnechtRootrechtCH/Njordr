@@ -1,14 +1,7 @@
 <template>
   <v-row v-if="itemCount > 0">
-    <v-col
-      v-for="item in list"
-      :key="item.key"
-      sm="12"
-      md="6"
-      lg="6"
-      xl="3"
-    >
-      <ShipCard :item="item" :showOwner="showOwners"/>
+    <v-col v-for="item in list" :key="item.key" sm="12" md="6" lg="6" xl="3">
+      <ShipCard :item="item" :showOwner="showOwners" />
     </v-col>
   </v-row>
 </template>
@@ -25,8 +18,7 @@ export default {
   components: { ShipCard },
   methods: {},
   computed: {
-    itemCount: (context) =>
-      Object.keys(context.list).length,
+    itemCount: (context) => Object.keys(context.list).length,
   },
 };
 </script>

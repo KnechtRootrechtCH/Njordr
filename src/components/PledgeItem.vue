@@ -11,9 +11,15 @@
         >
         <span>{{ item.name }}</span>
       </v-list-item-title>
-      <v-list-item-subtitle v-if="item.ship_name != item.name">{{ item.ship_name }}</v-list-item-subtitle>
-      <v-list-item-subtitle v-if="item.ship_name == item.name">n/a</v-list-item-subtitle>
-      <v-list-item-subtitle v-if="masterdata">$&nbsp;{{ masterdata.cost }}</v-list-item-subtitle>
+      <v-list-item-subtitle v-if="item.ship_name != item.name">{{
+        item.ship_name
+      }}</v-list-item-subtitle>
+      <v-list-item-subtitle v-if="item.ship_name == item.name"
+        >n/a</v-list-item-subtitle
+      >
+      <v-list-item-subtitle v-if="masterdata"
+        >$&nbsp;{{ masterdata.cost }}</v-list-item-subtitle
+      >
       <v-list-item-subtitle v-if="!masterdata">…</v-list-item-subtitle>
     </v-list-item-content>
   </v-list-item>

@@ -1,5 +1,5 @@
 <template>
-  <ShipGrid :list="orderedList" :showOwners="true"/>
+  <ShipGrid :list="orderedList" :showOwners="true" />
 </template>
 
 <script>
@@ -8,8 +8,7 @@ import ShipGrid from "@/components/ShipGrid.vue";
 export default {
   name: "OrganisationFleet",
   props: ["id"],
-  data: () => ({
-  }),
+  data: () => ({}),
   components: { ShipGrid },
   methods: {},
   computed: {
@@ -24,10 +23,10 @@ export default {
     this.$store.commit("unsubscribeOrgFleet");
   },
   watch: {
-    id: function() {
+    id: function () {
       this.$store.dispatch("loadOrgFleet", this.id);
-    }
-  }
+    },
+  },
 };
 </script>
 

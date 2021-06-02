@@ -40,7 +40,13 @@
         <template v-slot:activator>
           <v-list-item-title>{{ $t("Organisations") }}</v-list-item-title>
         </template>
-        <v-list-item v-for="organisation in organisations" link :to="`/organisation/${organisation.id}`" :key="organisation.id" color="primary">
+        <v-list-item
+          v-for="organisation in organisations"
+          link
+          :to="`/organisation/${organisation.id}`"
+          :key="organisation.id"
+          color="primary"
+        >
           <v-list-item-icon>
             <v-icon></v-icon>
           </v-list-item-icon>
@@ -55,11 +61,10 @@
           </v-list-item-icon>
           <v-list-item-title>{{ $t("Create") }}</v-list-item-title>
           <v-list-item-icon>
-              <v-icon>mdi-plus-circle-outline</v-icon>
-            </v-list-item-icon>
+            <v-icon>mdi-plus-circle-outline</v-icon>
+          </v-list-item-icon>
         </v-list-item>
       </v-list-group>
-
     </v-list>
     <v-divider v-if="isAdmin" />
     <v-list nav dense v-if="isAdmin">
@@ -125,7 +130,8 @@ export default {
         return null;
       }
     },
-    organisations: (context) => Object.values(context.$store.state.organisations.list),
+    organisations: (context) =>
+      Object.values(context.$store.state.organisations.list),
   },
 };
 </script>

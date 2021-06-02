@@ -7,7 +7,14 @@
       <div>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-chip label outlined color="primary" class="mr-2"  v-bind="attrs" v-on="on">
+            <v-chip
+              label
+              outlined
+              color="primary"
+              class="mr-2"
+              v-bind="attrs"
+              v-on="on"
+            >
               <v-icon left> mdi-currency-usd </v-icon>
               {{ pledge.cost }}
             </v-chip>
@@ -16,7 +23,14 @@
         </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-chip label outlined color="primary" class="mr-2"  v-bind="attrs" v-on="on">
+            <v-chip
+              label
+              outlined
+              color="primary"
+              class="mr-2"
+              v-bind="attrs"
+              v-on="on"
+            >
               <v-icon left> mdi-sigma </v-icon>
               {{ pledgeValue }}
             </v-chip>
@@ -25,7 +39,14 @@
         </v-tooltip>
         <v-tooltip bottom v-if="pledge.lti">
           <template v-slot:activator="{ on, attrs }">
-            <v-chip label outlined color="primary" class="mr-2"  v-bind="attrs" v-on="on">
+            <v-chip
+              label
+              outlined
+              color="primary"
+              class="mr-2"
+              v-bind="attrs"
+              v-on="on"
+            >
               <v-icon left> mdi-shield-star </v-icon>
               {{ $t("LTI") }}
             </v-chip>
@@ -34,7 +55,14 @@
         </v-tooltip>
         <v-tooltip bottom v-if="pledge.warbond">
           <template v-slot:activator="{ on, attrs }">
-            <v-chip label outlined color="primary" class="mr-2"  v-bind="attrs" v-on="on">
+            <v-chip
+              label
+              outlined
+              color="primary"
+              class="mr-2"
+              v-bind="attrs"
+              v-on="on"
+            >
               <v-icon left> mdi-ticket-percent </v-icon>
               {{ $t("Warbond") }}
             </v-chip>
@@ -42,7 +70,7 @@
           <span>{{ $t("Warbond") }}</span>
         </v-tooltip>
       </div>
-      <v-divider class="mt-4"/>
+      <v-divider class="mt-4" />
       <v-list>
         <PledgeItem v-for="item in items" :key="item.key" :item="item" />
       </v-list>
