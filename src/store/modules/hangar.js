@@ -57,7 +57,7 @@ let hangar = {
       }
 
       payload.data.forEach((x) => {
-        x.key = `${x.ship_code}:${x.pledge_id}`;
+        x.key = `${x.pledge_id}:${x.ship_code}`;
         let ref = db
           .collection("users")
           .doc(context.rootState.user.uid)
