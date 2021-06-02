@@ -21,7 +21,6 @@ let hangar = {
       db.collection("users")
         .doc(context.rootState.user.uid)
         .collection("hangar")
-        .orderBy("ship_code", "asc")
         .onSnapshot(
           (snapshot) => {
             snapshot.docChanges().forEach((change) => {

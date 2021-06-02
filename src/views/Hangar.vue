@@ -12,7 +12,7 @@
           </v-toolbar>
         </v-col>
       </v-row>
-      <ShipGrid :list="list"/>
+      <ShipGrid :list="orderedList"/>
     </v-container>
   </div>
 </template>
@@ -28,6 +28,7 @@ export default {
   components: { ShipGrid, ImportDialog },
   methods: {},
   computed: {
+    orderedList: (context) => context._.orderBy(context.list, "ship_code"),
     list: (context) => context.$store.state.hangar.list,
     itemCount: (context) =>
       Object.keys(context.$store.state.hangar.list).length,

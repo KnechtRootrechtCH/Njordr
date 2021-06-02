@@ -92,8 +92,6 @@ let organisations = {
       }
       context.commit("clearOrgFleet");
       context.commit("unsubscribeOrgFleet");
-
-      console.log("loading org fleet", info);
       info.members.forEach((memberId) => {
         let subscription = db.collection("users")
           .doc(memberId)

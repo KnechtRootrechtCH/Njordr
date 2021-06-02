@@ -1,5 +1,5 @@
 <template>
-  <ShipGrid :list="list" :showOwners="true"/>
+  <ShipGrid :list="orderedList" :showOwners="true"/>
 </template>
 
 <script>
@@ -13,6 +13,7 @@ export default {
   components: { ShipGrid },
   methods: {},
   computed: {
+    orderedList: (context) => context._.orderBy(context.list, "ship_code"),
     list: (context) => context.$store.state.organisations.fleet,
   },
   mounted: function () {
