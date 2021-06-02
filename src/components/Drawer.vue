@@ -1,7 +1,7 @@
 <template>
   <div class="root">
-    <v-list-item link to="./profile" two-line v-if="authenticated">
-      <v-list-item-avatar color="accent">
+    <v-list-item link to="/profile" two-line v-if="authenticated">
+      <v-list-item-avatar color="primary">
         <img v-if="photoUrl" :src="photoUrl" />
         <span v-if="!photoUrl && initials">{{ initials }}</span>
         <v-icon v-if="!photoUrl && !initials">mdi-account</v-icon>
@@ -18,28 +18,52 @@
     </v-list-item>
     <v-divider v-if="authenticated" />
     <v-list nav dense v-if="authenticated">
-      <v-list-item link to="./hangar" v-if="authenticated">
+      <v-list-item link to="/hangar" v-if="authenticated" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-warehouse</v-icon>
         </v-list-item-icon>
         <v-list-item-title>{{ $t("Hangar") }}</v-list-item-title>
       </v-list-item>
-      <v-list-item link to="./pledges" v-if="authenticated">
+      <v-list-item link to="/pledges" v-if="authenticated" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-clipboard-text</v-icon>
         </v-list-item-icon>
         <v-list-item-title>{{ $t("Pledges") }}</v-list-item-title>
       </v-list-item>
-      <v-list-item link to="./orgainsations" v-if="authenticated">
-        <v-list-item-icon>
-          <v-icon>mdi-account-group</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>{{ $t("Organisations") }}</v-list-item-title>
-      </v-list-item>
+      <v-list-group
+        :value="organisationsExpanded"
+        prepend-icon="mdi-handshake"
+        v-if="authenticated"
+        active-class=""
+        color="light"
+      >
+        <template v-slot:activator>
+          <v-list-item-title>{{ $t("Organisations") }}</v-list-item-title>
+        </template>
+        <v-list-item v-for="organisation in organisations" link :to="`/organisation/${organisation.id}`" :key="organisation.id" color="primary">
+          <v-list-item-icon>
+            <v-icon></v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>{{ organisation.name }}</v-list-item-title>
+          <v-list-item-icon>
+            <v-icon></v-icon>
+          </v-list-item-icon>
+        </v-list-item>
+        <v-list-item link to="/organisations/create" color="primary">
+          <v-list-item-icon>
+            <v-icon></v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>{{ $t("Create") }}</v-list-item-title>
+          <v-list-item-icon>
+              <v-icon>mdi-plus-circle-outline</v-icon>
+            </v-list-item-icon>
+        </v-list-item>
+      </v-list-group>
+
     </v-list>
     <v-divider v-if="isAdmin" />
     <v-list nav dense v-if="isAdmin">
-      <v-list-item link to="/admin/ships" exact>
+      <v-list-item link to="/admin/ships" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-database-edit</v-icon>
         </v-list-item-icon>
@@ -48,19 +72,19 @@
     </v-list>
     <v-divider v-if="authenticated" />
     <v-list nav dense>
-      <v-list-item @click="signOut" v-if="authenticated">
+      <v-list-item @click="signOut" v-if="authenticated" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-logout</v-icon>
         </v-list-item-icon>
         <v-list-item-title>{{ $t("Sign out") }}</v-list-item-title>
       </v-list-item>
-      <v-list-item link to="./authenticate" v-if="!authenticated">
+      <v-list-item link to="/authenticate" v-if="!authenticated">
         <v-list-item-icon>
           <v-icon>mdi-login</v-icon>
         </v-list-item-icon>
         <v-list-item-title>{{ $t("Sign in") }}</v-list-item-title>
       </v-list-item>
-      <v-list-item link to="/about" exact>
+      <v-list-item link to="/about" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-information-outline</v-icon>
         </v-list-item-icon>
@@ -75,6 +99,9 @@ import { auth } from "../plugins/firebase";
 
 export default {
   name: "NavigationDrawer",
+  data: () => ({
+    organisationsExpanded: true,
+  }),
   methods: {
     signOut() {
       auth.signOut();
@@ -98,6 +125,7 @@ export default {
         return null;
       }
     },
+    organisations: (context) => Object.values(context.$store.state.organisations.list),
   },
 };
 </script>

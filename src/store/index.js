@@ -5,6 +5,7 @@ import { alerts } from "./modules/alerts";
 import { hangar } from "./modules/hangar";
 import { pledges } from "./modules/pledges";
 import { ships } from "./modules/ships";
+import { organisations } from "./modules/organisations";
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     user: null,
     userInfo: null,
     isAdmin: false,
+    profile: null,
   },
   mutations: {
     setConfiguration: (state, payload) => {
@@ -31,6 +33,9 @@ export default new Vuex.Store({
     },
     setAdminInfo: (state, payload) => {
       state.isAdmin = payload != null && payload.isAdmin;
+    },
+    setProfile: (state, payload) => {
+      state.profile = payload;
     },
   },
   actions: {
@@ -50,6 +55,7 @@ export default new Vuex.Store({
         context.dispatch("loadAdminInfo");
         context.dispatch("loadConfiguration");
         context.dispatch("load");
+        context.dispatch("updateProfileBaseData");
       } else {
         context.commit("setUser", null);
         context.commit("setUserInfo", null);
@@ -82,6 +88,34 @@ export default new Vuex.Store({
           context.commit("setAdminInfo", null);
         });
     },
+    load: (context) => {
+      db.collection("users")
+        .doc(context.state.user.uid)
+        .onSnapshot((doc) => {
+          context.commit("setProfile", doc.data());
+          context.dispatch("loadOrgList");
+        },
+        (error) => {
+          context.dispatch("error", {
+            message: "Error loading profile data!",
+            info: error,
+          });
+        });
+    },
+    updateProfileBaseData: (context) => {
+      db.collection("users")
+      .doc(context.state.user.uid)
+      .set({
+        displayName: context.state.user.displayName,
+        email: context.state.user.email,
+        photoUrl: context.state.user.photoURL,
+        uid: context.state.user.uid,
+      }, {merge: true})
+      .catch((error) => {
+        context.error("Unable to load data from firebase", error);
+        context.commit("setAdminInfo", null);
+      });
+    }
   },
   getters: {
     isAuthenticated: (state) => state.user != null,
@@ -92,5 +126,6 @@ export default new Vuex.Store({
     hangar: hangar,
     pledges: pledges,
     ships: ships,
+    organisations: organisations,
   },
 });

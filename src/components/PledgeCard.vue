@@ -56,11 +56,11 @@ import PledgeItem from "@/components/PledgeItem.vue";
 export default {
   name: "PledgeCard",
   components: { PledgeItem },
+  props: ["pledge"],
   data: () => ({
     show: true,
   }),
   methods: {},
-  props: ["pledge"],
   computed: {
     items: (context) =>
       context.$store.getters.getShipsByPledgeId(context.pledge.key),

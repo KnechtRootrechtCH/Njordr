@@ -12,10 +12,7 @@
           </v-toolbar>
         </v-col>
       </v-row>
-      <v-row v-if="itemCount == 0">
-        <v-col col="12"> </v-col>
-      </v-row>
-      <ShipGrid />
+      <ShipGrid :list="list"/>
     </v-container>
   </div>
 </template>
@@ -27,7 +24,6 @@ import ImportDialog from "@/components/ImportDialog.vue";
 export default {
   name: "Hangar",
   data: () => ({
-    displayToggle: 1,
   }),
   components: { ShipGrid, ImportDialog },
   methods: {},

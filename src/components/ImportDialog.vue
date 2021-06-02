@@ -1,11 +1,20 @@
 <template>
+
+
+
   <v-dialog v-model="dialog" width="500">
-    <template v-slot:activator="{ on, attrs }">
+    <template v-slot:activator="{ on, attrs }" >
       <v-btn v-bind="attrs" v-on="on" @click="openDialog">
-        <span class="hidden-sm-and-down">{{ $t("Import") }}</span>
+            <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+        <span v-bind="attrs" v-on="on" class="hidden-sm-and-down">{{ $t("Import") }}</span>
         <v-icon right>mdi-import</v-icon>
+        </template>
+          <span>{{ $t("Import fleet from shiplist.json") }}</span>
+        </v-tooltip>
       </v-btn>
     </template>
+
     <v-card>
       <v-card-title class="headline">
         {{ $t("Import Fleet") }}
@@ -75,6 +84,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+
 </template>
 
 <script>

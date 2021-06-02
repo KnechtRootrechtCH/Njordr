@@ -15,11 +15,25 @@
       <v-spacer />
       <v-img
         :src="manufacturerImage"
+        v-if="!showOwner"
         contain
         position="right"
         max-height="36"
         max-width="80"
       />
+       <v-tooltip left v-if="showOwner">
+        <template v-slot:activator="{ on, attrs }">
+
+        <v-avatar v-if="showOwner" size="36" color="primary" v-bind="attrs"
+            v-on="on">
+        <img v-if="ownerPhotoUrl" :src="ownerPhotoUrl" />
+        <span v-if="!ownerPhotoUrl && ownerInitials">{{ ownerInitials }}</span>
+        <v-icon v-if="!ownerPhotoUrl && !ownerInitials">mdi-account</v-icon>
+      </v-avatar>
+      </template>
+      <span>{{ ownerName }}</span>
+    </v-tooltip>
+
     </v-card-title>
 
     <v-card-subtitle>
@@ -34,13 +48,17 @@
 export default {
   name: "ShipCard",
   methods: {},
-  props: ["item"],
+  props: ["item", "showOwner"],
   computed: {
     masterdata: (context) =>
       context.$store.state.ships.list[context.item.ship_code],
     manufacturerImage() {
       return `../img/manufacturer/${this.item.manufacturer_code}.png`; // the module request
     },
+    ownerProfile: (context) => context.$store.state.organisations.profiles[context.item.ownerId],
+    ownerPhotoUrl: (context) => context.ownerProfile ? context.ownerProfile.photoUrl : null,
+    ownerInitials: (context) => context.ownerProfile ? context.ownerProfile.initials : null,
+    ownerName: (context) => context.ownerProfile ? context.ownerProfile.displayName : null,
   },
 };
 </script>
