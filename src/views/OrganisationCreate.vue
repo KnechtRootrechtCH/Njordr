@@ -7,7 +7,6 @@
 <script>
 export default {
   name: "NewOrganisation",
-  components: {
-  },
+  components: {},
 };
 </script>

@@ -1,267 +1,45 @@
 <template>
-<v-card>
-    <v-card-title>
-      {{ item.manufacturer_code }}&nbsp;{{ item.name }}
-    </v-card-title>
-
-      <v-card-text>
-        <v-row>
-          <v-col cols="12" md="6" lg="6" xl="6">
-            <v-text-field
-              v-model="item.code"
-              :label="$t('Item code')"
-              :rules="[rules.required]"
-              @change="update"
-              outlined
-              disabled
-            />
-          </v-col>
-          <v-col cols="12" md="6" lg="6" xl="6">
-            <v-select
-              v-model="item.type"
-              :label="$t('Item type')"
-              :items="typeSelection"
-              :rules="[rules.required]"
-              @change="update"
-              outlined
-            />
-          </v-col>
-          <v-col cols="12" md="6" lg="6" xl="6">
-            <v-text-field
-              v-model="item.manufacturer_code"
-              :label="$t('Manufacturer code')"
-              :rules="[rules.required]"
-              counter="4"
-              maxlength="4"
-              @change="update"
-              outlined
-            />
-          </v-col>
-          <v-col cols="12" md="6" lg="6" xl="6">
-            <v-text-field
-              v-model="item.manufacturer_name"
-              :label="$t('Manufacturer name')"
-              :rules="[rules.required]"
-              @change="update"
-              outlined
-            />
-          </v-col>
-          <v-col cols="12" md="6" lg="6" xl="6">
-            <v-text-field
-              v-model="item.name"
-              :label="$t('Item name')"
-              :rules="[rules.required]"
-              @change="update"
-              outlined
-            />
-          </v-col>
-                      <v-col cols="12" md="6" lg="6" xl="6">
-            <v-text-field
-              v-model="item.focus"
-              :label="$t('Focus')"
-              @change="update"
-              outlined
-            />
-            </v-col>
-                    <v-col cols="12" md="6" lg="6" xl="6">
-            <v-text-field
-              v-model="item.crew"
-              :label="$t('Crew size')"
-              @change="update"
-              outlined
-            />
-            </v-col>
-          <v-col cols="12" md="6" lg="6" xl="6">
-            <v-select
-              v-model="item.size"
-              :label="$t('Size')"
-              :items="sizeSelection"
-              :rules="[rules.required]"
-              @change="update"
-              outlined
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" md="6" lg="6" xl="6">
-            <v-select
-              v-model="item.status"
-              :label="$t('Status')"
-              :items="statusSelection"
-              :rules="[rules.required]"
-              @change="update"
-              outlined
-            />
-          </v-col>
-          <v-col cols="12" md="6" lg="6" xl="6">
-            <v-text-field
-              v-model="item.targetPatch"
-              :label="$t('Target patch')"
-              :rules="[]"
-              @change="update"
-              outlined
-            />
-          </v-col>
-                    <v-col cols="12" md="6" lg="6" xl="6">
-            <v-text-field
-              v-model="item.cost"
-              :label="$t('Cost')"
-              :rules="[rules.required, rules.number]"
-              prefix="$"
-              @change="update"
-              outlined
-            />
-          </v-col>
-          <v-col cols="12" md="6" lg="6" xl="6">
-            <v-text-field
-              v-model="item.costIngame"
-              :label="$t('Cost (ingame)')"
-              :rules="[rules.required, rules.number]"
-              prefix="aUEC"
-              @change="update"
-              outlined
-            />
-          </v-col>
-          <v-col cols="12" md="6" lg="6" xl="6">
-            <v-text-field
-              v-model="item.scu"
-              :label="$t('SCU')"
-              prepend-inner-icon="mdi-package"
-              :rules="[rules.required, rules.number]"
-              @change="update"
-              outlined
-            />
-          </v-col>
-          <v-col cols="12" md="6" lg="6" xl="6">
-            <v-text-field
-              v-model="item.shipLength"
-              :label="$t('Length')"
-              prepend-inner-icon="mdi-arrow-expand-horizontal"
-              :rules="[rules.required, rules.number]"
-              @change="update"
-              outlined
-            />
-          </v-col>
-          <v-col cols="12" md="12" lg="6" xl="6">
-            <v-text-field
-              v-model="item.image"
-              :label="$t('Image URL')"
-              :rules="[rules.required]"
-              @change="update"
-              outlined
-            />
-          </v-col>
-          <v-col cols="12" md="12" lg="6" xl="6">
-            <v-text-field
-              v-model="item.pledgeStore"
-              :label="$t('Pledge store')"
-              @change="update"
-              outlined
-            />
-          </v-col>
-          <v-col cols="12" md="12" lg="6" xl="6">
-            <v-text-field
-              v-model="item.sctools"
-              :label="$t('Star Citizen Tools')"
-              @change="update"
-              outlined
-            />
-          </v-col>
-          <v-col cols="12" md="12" lg="6" xl="6">
-            <v-text-field
-              v-model="item.fleetyards"
-              :label="$t('Fleetyards')"
-              @change="update"
-              outlined
-            />
-          </v-col>
-        </v-row>
-          </v-card-text>
-              <v-card-actions>
-      <v-btn
-        plain
-        class="mr-4 d-none d-sm-inline"
-        color="primary"
-        v-if="item.pledgeStore"
-        @click="openExternalUrl(item.pledgeStore)"
-        >{{ $t("Pledge Store") }}</v-btn
-      >
-      <v-btn
-        plain
-        class="mr-4"
-        color="primary"
-        v-if="item.sctools"
-        @click="openExternalUrl(item.sctools)"
-        >{{ $t("Star Citizen Tools") }}</v-btn
-      >
-      <v-btn
-        plain
-        class="mr-4 d-none d-sm-inline"
-        color="primary"
-        v-if="item.fleetyards"
-        @click="openExternalUrl(item.fleetyards)"
-        >{{ $t("Fleetyards") }}</v-btn
-      >
-      <v-btn
-        plain
-        class="mr-4 d-none d-md-inline"
-        color="primary"
-        v-if="isReleased && dpsCalculatorUrl"
-        @click="openExternalUrl(dpsCalculatorUrl)"
-        >{{ $t("DPS Calculator") }}</v-btn
-      >
-      <v-btn
-        plain
-        class="mr-4 d-none d-md-inline"
-        color="primary"
-        v-if="isReleased && hardpointUrl"
-        @click="openExternalUrl(hardpointUrl)"
-        >{{ $t("Hardpoint.io") }}</v-btn
-      >
-    </v-card-actions>
-  </v-card>
+  <v-dialog max-width="1200" overlay-opacity="0.8" v-model="dialog">
+    <template v-slot:activator="{ on, attrs }">
+      <v-card hover v-bind="attrs" v-on="on">
+        <v-img v-if="item.image" height="250" :src="item.image"></v-img>
+        <v-img
+          v-else
+          height="250"
+          src="https://starcitizen.tools/images/thumb/c/c1/Port_Olisar_main_hub.png/2560px-Port_Olisar_main_hub.png"
+        ></v-img>
+        <v-card-title>
+          <span>{{ item.name }}</span>
+          <v-spacer />
+          <v-img
+            :src="`../img/manufacturer/${item.manufacturer_code}.png`"
+            contain
+            position="right"
+            max-height="36"
+            max-width="80"
+          />
+        </v-card-title>
+        <v-card-subtitle>
+          <span>{{ item.manufacturer_code }}&nbsp;{{ item.name }}</span>
+        </v-card-subtitle>
+      </v-card>
+    </template>
+    <MasterdataEditCard :item="item" @close="dialog = false"/>
+  </v-dialog>
 </template>
 
 <script>
+import MasterdataEditCard from "@/components/masterdata/MasterdataEditCard.vue";
+
 export default {
-  name: "MasterDataCard",
+  name: "MasterdataCard",
+  components: { MasterdataEditCard },
   data: () => ({
-    typeSelection: [
-      "ship",
-      "vehicle",
-      "game package",
-      "armour",
-      "paint",
-      "flair",
-      "other",
-    ],
-    sizeSelection: ["Vehicle", "Snub", "Small", "Medium", "Large", "Capital", "N/A"],
-    statusSelection: ["released", "finalized", "roadmap", "concept"],
-    rules: {
-      number: (value) =>
-        !Number.isNaN(Number(value)) || "Please enter a valid number.",
-      required: (value) => !!value || "Required.",
-    },
+    dialog: false,
   }),
-  methods: {
-    update() {
-      this.$store.dispatch("saveMasterdataItem", this.item);
-    },
-    openExternalUrl(url) {
-      window.open(url, "_blank");
-    },
-  },
-  props: ["item"],
+  methods: {},
+  props: ["item", "type"],
   computed: {
-    list: (context) => context.$store.state.masterdata.list,
-    dpsCalculatorUrl: (context) =>
-      `https://www.erkul.games/ship/${context.item.ship_code}`,
-    hardpointUrl: (context) =>
-      `https://hardpoint.io/#/ships/${context.item.ship_code}`,
-    isReleased: (context) =>
-      context.item &&
-      (context.item.status == "released" ||
-        context.item.status == "finalized"),
   },
 };
 </script>

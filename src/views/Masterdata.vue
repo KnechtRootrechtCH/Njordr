@@ -9,7 +9,7 @@
           </v-toolbar>
         </v-col>
       </v-row>
-      <MasterdataList :type="type"/>
+      <MasterdataList :type="type" />
     </v-container>
   </div>
 </template>
@@ -22,6 +22,6 @@ export default {
   components: { MasterdataList },
   computed: {
     type: (context) => context.$route.params.type,
-  }
+  },
 };
 </script>

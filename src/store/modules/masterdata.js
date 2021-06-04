@@ -70,7 +70,6 @@ let masterdata = {
         });
     },
     saveMasterdataItem: (context, payload) => {
-      console.debug("saveMasterdataItem", payload);
       if (!payload.code) {
         return;
       }

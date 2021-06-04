@@ -88,7 +88,9 @@
           <v-list-item-icon>
             <v-icon></v-icon>
           </v-list-item-icon>
-          <v-list-item-title>{{ $t("Masterdata: Vehicles") }}</v-list-item-title>
+          <v-list-item-title>{{
+            $t("Masterdata: Vehicles")
+          }}</v-list-item-title>
           <v-list-item-icon>
             <v-icon></v-icon>
           </v-list-item-icon>

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog max-width="1200" overlay-opacity="0.8">
+  <v-dialog max-width="1200" overlay-opacity="0.8" v-model="dialog">
     <template v-slot:activator="{ on, attrs }">
       <v-card hover v-bind="attrs" v-on="on">
         <v-img
@@ -56,7 +56,11 @@
         </v-card-subtitle>
       </v-card>
     </template>
-    <ShipDetailCard :item="item" :masterdata="masterdata" />
+    <ShipDetailCard
+      :item="item"
+      :masterdata="masterdata"
+      @close="dialog = false"
+    />
   </v-dialog>
 </template>
 
@@ -66,6 +70,9 @@ import ShipDetailCard from "@/components/hangar/ShipDetailCard.vue";
 export default {
   name: "ShipCard",
   components: { ShipDetailCard },
+  data: () => ({
+    dialog: false,
+  }),
   methods: {},
   props: ["item", "showOwner"],
   computed: {
