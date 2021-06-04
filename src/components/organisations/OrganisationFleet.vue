@@ -1,5 +1,5 @@
 <template>
-  <ShipGrid :list="orderedList" :showOwners="true" />
+  <ShipGrid :list="orderedList" :showOwners="true" :showNotes="true" />
 </template>
 
 <script>

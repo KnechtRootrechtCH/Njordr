@@ -6,6 +6,7 @@ import { hangar } from "./modules/hangar";
 import { pledges } from "./modules/pledges";
 import { masterdata } from "./modules/masterdata";
 import { organisations } from "./modules/organisations";
+import { notes } from "./modules/notes";
 
 Vue.use(Vuex);
 
@@ -131,5 +132,6 @@ export default new Vuex.Store({
     pledges: pledges,
     masterdata: masterdata,
     organisations: organisations,
+    notes: notes,
   },
 });

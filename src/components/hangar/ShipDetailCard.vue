@@ -142,6 +142,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
+          <ShipNotes v-if="showNotes && notes" :notes="notes" />
         </v-card-text>
         <v-card-actions>
           <v-btn
@@ -188,9 +189,12 @@
 </template>
 
 <script>
+import ShipNotes from "@/components/hangar/ShipNotes.vue";
+
 export default {
   name: "ShipDetailCard",
-  props: ["item", "masterdata"],
+  props: ["item", "masterdata", "showNotes"],
+  components: { ShipNotes },
   methods: {
     openExternalUrl(url) {
       window.open(url, "_blank");
@@ -205,6 +209,12 @@ export default {
       context.masterdata &&
       (context.masterdata.status == "FlightReady" ||
         context.masterdata.status == "GoldStandart"),
+    notes: (context) =>
+      context.showNotes
+        ? context.$store.state.notes.list[context.masterdata.code] ?? {
+            code: context.masterdata.code,
+          }
+        : null,
   },
 };
 </script>

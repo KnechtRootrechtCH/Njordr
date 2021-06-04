@@ -11,7 +11,8 @@ let masterdata = {
   mutations: {
     updateMasterdataItem: (state, payload) =>
       Vue.set(state.list, payload.code, payload),
-    removeMasterdataItem: (state, key) => Vue.delete(state.list, key),
+    removeMasterdataItem: (state, payload) =>
+      Vue.delete(state.list, payload.code),
   },
   actions: {
     load: (context) => {

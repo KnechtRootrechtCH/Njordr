@@ -59,6 +59,7 @@
     <ShipDetailCard
       :item="item"
       :masterdata="masterdata"
+      :showNotes="showNotes"
       @close="dialog = false"
     />
   </v-dialog>
@@ -74,7 +75,7 @@ export default {
     dialog: false,
   }),
   methods: {},
-  props: ["item", "showOwner"],
+  props: ["item", "showOwner", "showNotes"],
   computed: {
     masterdata: (context) =>
       context.$store.state.masterdata.list[context.item.ship_code],

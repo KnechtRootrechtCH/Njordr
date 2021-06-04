@@ -260,7 +260,12 @@ export default {
       "Capital",
       "N/A",
     ],
-    statusSelection: ["FlightReady", "GoldStandart", "InProduction", "InConcept"],
+    statusSelection: [
+      "FlightReady",
+      "GoldStandart",
+      "InProduction",
+      "InConcept",
+    ],
     rules: {
       number: (value) =>
         !Number.isNaN(Number(value)) || "Please enter a valid number.",
@@ -284,7 +289,8 @@ export default {
       `https://hardpoint.io/#/ships/${context.item.ship_code}`,
     isReleased: (context) =>
       context.item &&
-      (context.item.status == "FlightReady" || context.item.status == "GoldStandart"),
+      (context.item.status == "FlightReady" ||
+        context.item.status == "GoldStandart"),
   },
 };
 </script>

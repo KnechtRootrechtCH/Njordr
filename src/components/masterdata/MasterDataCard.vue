@@ -24,7 +24,7 @@
         </v-card-subtitle>
       </v-card>
     </template>
-    <MasterdataEditCard :item="item" @close="dialog = false"/>
+    <MasterdataEditCard :item="item" @close="dialog = false" />
   </v-dialog>
 </template>
 
@@ -39,8 +39,7 @@ export default {
   }),
   methods: {},
   props: ["item", "type"],
-  computed: {
-  },
+  computed: {},
 };
 </script>
 
