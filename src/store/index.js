@@ -4,7 +4,7 @@ import { auth, db } from "../plugins/firebase";
 import { alerts } from "./modules/alerts";
 import { hangar } from "./modules/hangar";
 import { pledges } from "./modules/pledges";
-import { ships } from "./modules/ships";
+import { masterdata } from "./modules/masterdata";
 import { organisations } from "./modules/organisations";
 
 Vue.use(Vuex);
@@ -117,8 +117,7 @@ export default new Vuex.Store({
           { merge: true }
         )
         .catch((error) => {
-          context.error("Unable to load data from firebase", error);
-          context.commit("setAdminInfo", null);
+          context.error("Unable to save profile base data to firebase", error);
         });
     },
   },
@@ -130,7 +129,7 @@ export default new Vuex.Store({
     alerts: alerts,
     hangar: hangar,
     pledges: pledges,
-    ships: ships,
+    masterdata: masterdata,
     organisations: organisations,
   },
 });

@@ -35,7 +35,7 @@ export default {
   props: ["item"],
   computed: {
     masterdata: (context) =>
-      context.$store.state.ships.list[context.item.ship_code],
+      context.$store.state.masterdata.list[context.item.ship_code],
     manufacturerImage() {
       return `../img/manufacturer/${this.item.manufacturer_code}.png`; // the module request
     },

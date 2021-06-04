@@ -1,7 +1,7 @@
 <template>
   <v-row v-if="itemCount > 0">
     <v-col v-for="item in list" :key="item.key" sm="12" md="6" lg="6" xl="3">
-      <ShipCard :item="item" :showOwner="showOwners" />
+      <ShipCard :item="item" :showOwner="showOwners" :allowEdit="allowEdit" />
     </v-col>
   </v-row>
 </template>
@@ -11,7 +11,7 @@ import ShipCard from "@/components/ShipCard.vue";
 
 export default {
   name: "ShipGrid",
-  props: ["list", "showOwners"],
+  props: ["list", "showOwners", "allowEdit"],
   data: () => ({
     displayToggle: 1,
   }),

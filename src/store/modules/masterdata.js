@@ -4,20 +4,27 @@ import { db } from "@/plugins/firebase";
 
 Vue.use(Vuex);
 
-let ships = {
+let masterdata = {
   state: {
     list: {},
   },
   mutations: {
-    updateShip: (state, payload) =>
-      Vue.set(state.list, payload.id, payload.data),
+    updateMasterdataItem: (state, payload) =>
+      Vue.set(state.list, payload.code, payload),
+    removeMasterdataItem: (state, key) => Vue.delete(state.list, key),
   },
   actions: {
     load: (context) => {
       db.collection("masterdata_ships").onSnapshot(
         (snapshot) => {
-          snapshot.forEach((doc) => {
-            context.commit("updateShip", { data: doc.data(), id: doc.id });
+          snapshot.docChanges().forEach((change) => {
+            if (change.type === "added") {
+              context.commit("updateMasterdataItem", change.doc.data());
+            } else if (change.type === "modified") {
+              context.commit("updateMasterdataItem", change.doc.data());
+            } else if (change.type === "removed") {
+              context.commit("removeMasterdataItem", change.doc.data());
+            }
           });
         },
         (error) => {
@@ -29,9 +36,6 @@ let ships = {
       );
     },
     import: (context, payload) => {
-      if (!context.getters.isAdmin) {
-        return;
-      }
       const batch = db.batch();
       payload.data.forEach((x) => {
         let current = context.state.list[x.ship_code];
@@ -40,7 +44,7 @@ let ships = {
           batch.set(
             ref,
             {
-              ship_code: x.ship_code,
+              code: x.ship_code,
               manufacturer_code: x.manufacturer_code,
               manufacturer_name: x.manufacturer_name,
               name: x.name,
@@ -65,9 +69,22 @@ let ships = {
           });
         });
     },
+    saveMasterdataItem: (context, payload) => {
+      console.debug("saveMasterdataItem", payload);
+      if (!payload.code) {
+        return;
+      }
+
+      db.collection("masterdata_ships")
+        .doc(payload.code)
+        .set(payload, { merge: true })
+        .catch((error) => {
+          context.error("Unable to save masterdata item to firebase", error);
+        });
+    },
   },
   getters: {},
   modules: {},
 };
 
-export { ships };
+export { masterdata };

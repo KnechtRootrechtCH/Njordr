@@ -12,7 +12,7 @@
           </v-toolbar>
         </v-col>
       </v-row>
-      <ShipGrid :list="orderedList" />
+      <ShipGrid :list="orderedList" :allowEdit="true" />
     </v-container>
   </div>
 </template>

@@ -32,13 +32,6 @@ export default {
       context.$store.getters.organisationInfo(context.id),
     id: (context) => context.$route.params.id,
   },
-  mounted: function () {
-    // `this` points to the vm instance
-    // console.log("mounted");
-  },
-  destroyed: function () {
-    //console.log("destroyed");
-  },
 };
 </script>
 

@@ -8,12 +8,14 @@
           :src="masterdata.image"
         ></v-img>
         <v-img
-          v-if="!masterdata || !masterdata.image"
+          v-else
           height="250"
           src="https://starcitizen.tools/images/thumb/c/c1/Port_Olisar_main_hub.png/2560px-Port_Olisar_main_hub.png"
         ></v-img>
         <v-card-title>
-          <span>{{ item.ship_name }}</span>
+          <span v-if="item.ship_name != item.name">{{ item.ship_name }}</span>
+          <span v-else-if="item.name && masterdata">{{ masterdata.name }}</span>
+          <span v-else>{{ item.ship_name }}</span>
           <v-spacer />
           <v-img
             :src="manufacturerImage"
@@ -33,12 +35,8 @@
                 v-on="on"
               >
                 <img v-if="ownerPhotoUrl" :src="ownerPhotoUrl" />
-                <span v-if="!ownerPhotoUrl && ownerInitials">{{
-                  ownerInitials
-                }}</span>
-                <v-icon v-if="!ownerPhotoUrl && !ownerInitials"
-                  >mdi-account</v-icon
-                >
+                <span v-else-if="ownerInitials">{{ ownerInitialsa }}</span>
+                <v-icon v-else>mdi-account</v-icon>
               </v-avatar>
             </template>
             <span>{{ ownerName }}</span>
@@ -46,14 +44,19 @@
         </v-card-title>
 
         <v-card-subtitle>
-          <span>{{ item.manufacturer_code }}&nbsp;{{ item.name }}</span>
+          <span v-if="masterdata"
+            >{{ item.manufacturer_code }}&nbsp;{{ masterdata.name }}</span
+          >
+          <span v-else
+            >{{ item.manufacturer_code }}&nbsp;{{ item.ship_name }}</span
+          >
           <span v-if="item.ship_serial" class="float-right font-italic"
             >S/N:&nbsp;{{ item.ship_serial }}</span
           >
         </v-card-subtitle>
       </v-card>
     </template>
-    <ShipDetailCard :item="item" />
+    <ShipDetailCard :item="item" :masterdata="masterdata" />
   </v-dialog>
 </template>
 
@@ -67,7 +70,7 @@ export default {
   props: ["item", "showOwner"],
   computed: {
     masterdata: (context) =>
-      context.$store.state.ships.list[context.item.ship_code],
+      context.$store.state.masterdata.list[context.item.ship_code],
     manufacturerImage() {
       return `../img/manufacturer/${this.item.manufacturer_code}.png`; // the module request
     },

@@ -95,7 +95,7 @@ export default {
     pledgeValue() {
       let result = 0;
       this.items.forEach((x) => {
-        let masterdata = this.$store.state.ships.list[x.ship_code];
+        let masterdata = this.$store.state.masterdata.list[x.ship_code];
         if (masterdata) {
           result += masterdata.cost;
         }

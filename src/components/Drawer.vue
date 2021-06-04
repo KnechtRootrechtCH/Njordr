@@ -35,7 +35,7 @@
         prepend-icon="mdi-handshake"
         v-if="authenticated"
         active-class=""
-        color="light"
+        color="primary"
       >
         <template v-slot:activator>
           <v-list-item-title>{{ $t("Organisations") }}</v-list-item-title>
@@ -65,15 +65,35 @@
           </v-list-item-icon>
         </v-list-item>
       </v-list-group>
-    </v-list>
-    <v-divider v-if="isAdmin" />
-    <v-list nav dense v-if="isAdmin">
-      <v-list-item link to="/admin/ships" color="primary">
-        <v-list-item-icon>
-          <v-icon>mdi-database-edit</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>{{ $t("Ship Database") }}</v-list-item-title>
-      </v-list-item>
+      <v-list-group
+        :value="adminExpanded"
+        prepend-icon="mdi-cogs"
+        v-if="isAdmin"
+        active-class=""
+        color="primary"
+      >
+        <template v-slot:activator>
+          <v-list-item-title>{{ $t("Admin") }}</v-list-item-title>
+        </template>
+        <v-list-item link to="/admin/masterdata/ship" color="primary">
+          <v-list-item-icon>
+            <v-icon></v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>{{ $t("Masterdata: Ships") }}</v-list-item-title>
+          <v-list-item-icon>
+            <v-icon></v-icon>
+          </v-list-item-icon>
+        </v-list-item>
+        <v-list-item link to="/admin/masterdata/vehicle" color="primary">
+          <v-list-item-icon>
+            <v-icon></v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>{{ $t("Masterdata: Vehicles") }}</v-list-item-title>
+          <v-list-item-icon>
+            <v-icon></v-icon>
+          </v-list-item-icon>
+        </v-list-item>
+      </v-list-group>
     </v-list>
     <v-divider v-if="authenticated" />
     <v-list nav dense>
@@ -106,6 +126,7 @@ export default {
   name: "NavigationDrawer",
   data: () => ({
     organisationsExpanded: true,
+    adminExpanded: false,
   }),
   methods: {
     signOut() {
