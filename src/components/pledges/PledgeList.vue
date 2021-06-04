@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import PledgeCard from "@/components/PledgeCard.vue";
+import PledgeCard from "@/components/pledges/PledgeCard.vue";
 
 export default {
   name: "PledgeList",

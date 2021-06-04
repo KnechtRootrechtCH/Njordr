@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import OrganisationFleet from "@/components/OrganisationFleet.vue";
+import OrganisationFleet from "@/components/organisations/OrganisationFleet.vue";
 
 export default {
   name: "Organisation",

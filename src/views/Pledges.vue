@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import PledgeList from "@/components/PledgeList.vue";
-import ImportDialog from "@/components/ImportDialog.vue";
+import PledgeList from "@/components/pledges/PledgeList.vue";
+import ImportDialog from "@/components/hangar/ImportDialog.vue";
 
 export default {
   name: "Pledges",

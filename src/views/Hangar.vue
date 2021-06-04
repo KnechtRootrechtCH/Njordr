@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import ShipGrid from "@/components/ShipGrid.vue";
-import ImportDialog from "@/components/ImportDialog.vue";
+import ShipGrid from "@/components/hangar/ShipGrid.vue";
+import ImportDialog from "@/components/hangar/ImportDialog.vue";
 
 export default {
   name: "Hangar",

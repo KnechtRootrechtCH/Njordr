@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import ShipCard from "@/components/ShipCard.vue";
+import ShipCard from "@/components/hangar/ShipCard.vue";
 
 export default {
   name: "ShipGrid",

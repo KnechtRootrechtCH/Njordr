@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import MasterDataCard from "@/components/MasterDataCard.vue";
+import MasterDataCard from "@/components/masterdata/MasterDataCard.vue";
 
 export default {
   name: "MasterdataList",

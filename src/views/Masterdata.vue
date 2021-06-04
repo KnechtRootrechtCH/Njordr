@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import MasterdataList from "@/components/MasterdataList.vue";
+import MasterdataList from "@/components/masterdata/MasterdataList.vue";
 
 export default {
   name: "Masterdata",

@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import ShipDetailCard from "@/components/ShipDetailCard.vue";
+import ShipDetailCard from "@/components/hangar/ShipDetailCard.vue";
 
 export default {
   name: "ShipCard",

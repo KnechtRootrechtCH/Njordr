@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import PledgeItem from "@/components/PledgeItem.vue";
+import PledgeItem from "@/components/pledges/PledgeItem.vue";
 
 export default {
   name: "PledgeCard",

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ShipGrid from "@/components/ShipGrid.vue";
+import ShipGrid from "@/components/hangar/ShipGrid.vue";
 
 export default {
   name: "OrganisationFleet",
